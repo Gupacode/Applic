@@ -1,7 +1,7 @@
 // app/login/page.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BrainCircuit } from 'lucide-react';
@@ -11,12 +11,21 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 export default function LoginPage() {
-    const { login, register } = useAuth();
+    const { login, register, user, loading } = useAuth(); // Adicionado user e loading
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
+
+    // Efeito para redirecionar usuários já logados
+    useEffect(() => {
+        // Se o contexto não estiver carregando e o usuário já existir, redirecione
+        if (!loading && user) {
+            router.push('/trilhas');
+        }
+    }, [user, loading, router]);
+
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,7 +61,15 @@ export default function LoginPage() {
         }
     };
     
-    // JSX do componente LoginPage original
+    // Se estiver carregando ou se o usuário já estiver logado, não renderize o formulário
+    if (loading || user) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+                {/* Pode-se adicionar um spinner de carregamento aqui */}
+            </div>
+        );
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
             <Card className="w-full max-w-sm">

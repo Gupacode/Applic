@@ -28,6 +28,18 @@ const LearningPathComponent = ({ pathId }: LearningPathComponentProps) => {
     const router = useRouter();
     const path = (mockDatabase.learningPaths as MockLearningPaths)[pathId];
 
+    if (!path) {
+        return (
+            <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+                <h1 className="text-2xl font-bold text-red-500">Erro: Trilha não encontrada</h1>
+                <p className="mt-2 text-gray-600 dark:text-gray-400">A trilha de aprendizagem que você está tentando acessar não existe.</p>
+                <Button onClick={() => router.push('/trilhas')} className="mt-6">
+                    Voltar para as Trilhas
+                </Button>
+            </div>
+        );
+    }
+
     const getInitialProgress = (): UserProgress => {
         if (!user) {
             // Retorna um estado padrão se não houver usuário logado
