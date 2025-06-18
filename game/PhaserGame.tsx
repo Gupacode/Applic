@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useRef, useEffect, useCallback, useState } from 'react';
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { Card } from '@/components/ui/Card';
 import { DigitalSecurityGameScene } from './DigitalSecurityGameScene';
 import { GameEventBus } from './EventBus';

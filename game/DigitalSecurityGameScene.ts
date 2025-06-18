@@ -1,5 +1,5 @@
 // game/DigitalSecurityGameScene.ts
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { GameEventBus } from './EventBus';
 
 export class DigitalSecurityGameScene extends Phaser.Scene {

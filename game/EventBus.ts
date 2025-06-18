@@ -1,5 +1,5 @@
 // game/EventBus.ts
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 
 // Estender a classe EventEmitter do Phaser é uma maneira robusta de criar um barramento de eventos.
 class EventBus extends Phaser.Events.EventEmitter {
