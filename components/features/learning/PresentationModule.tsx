@@ -92,14 +92,24 @@ export const PresentationModule = ({ onComplete }: PresentationModuleProps) => {
             <div className="text-lg text-gray-600 dark:text-gray-300 min-h-[300px] sm:min-h-[250px] leading-relaxed">
                 {currentPage.content}
             </div>
-            <div className="flex justify-between items-center mt-8">
-                <Button onClick={() => setPage(p => p - 1)} disabled={page === 0} variant="secondary">Anterior</Button>
-                <span>{page + 1} / {pages.length}</span>
+
+            {/*
+              * CORREÇÃO APLICADA AQUI:
+              * - O layout agora é `flex-col` (vertical) por padrão e muda para `flex-row` (horizontal) em telas 'sm' e maiores.
+              * - O espaçamento muda de vertical (`space-y-4`) para horizontal (`sm:space-x-4`).
+              * - Os botões ocupam a largura total (`w-full`) em mobile e largura automática (`sm:w-auto`) em telas maiores.
+              * - O contêiner de botões agora usa `flex-row-reverse sm:flex-row` para uma ordem mais lógica em mobile (Próximo/Finalizar em cima).
+            */}
+            <div className="mt-8 flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center space-y-4 space-y-reverse sm:space-y-0">
                 {page < pages.length - 1 ? (
-                    <Button onClick={() => setPage(p => p + 1)}>Próximo</Button>
+                    <Button onClick={() => setPage(p => p + 1)} className="w-full sm:w-auto">Próximo</Button>
                 ) : (
-                    <Button onClick={onComplete}>Finalizar Apresentação</Button>
+                    <Button onClick={onComplete} className="w-full sm:w-auto">Finalizar Apresentação</Button>
                 )}
+
+                <span className="text-center w-full sm:w-auto">{page + 1} / {pages.length}</span>
+
+                <Button onClick={() => setPage(p => p - 1)} disabled={page === 0} variant="secondary" className="w-full sm:w-auto">Anterior</Button>
             </div>
         </Card>
     );

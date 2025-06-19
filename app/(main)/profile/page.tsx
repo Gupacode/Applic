@@ -18,8 +18,9 @@ export default function ProfilePage() {
     return (
         <div className="max-w-4xl mx-auto px-4 py-8">
             <Card className="mb-8">
-                <div className="flex items-center">
-                    <div className="p-4 bg-indigo-100 dark:bg-indigo-900 rounded-full mr-6">
+                {/* A classe 'sm:items-center' foi adicionada aqui para corrigir o alinhamento */}
+                <div className="flex flex-col sm:flex-row sm:items-center">
+                    <div className="p-4 bg-indigo-100 dark:bg-indigo-900 rounded-full mr-6 mb-4 sm:mb-0 self-start">
                         <User size={48} className="text-indigo-600" />
                     </div>
                     <div>
