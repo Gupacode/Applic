@@ -9,5 +9,5 @@ import { redirect } from 'next/navigation';
  */
 export default function HomePage() {
   // Executa um redirecionamento no lado do servidor da raiz para /trilhas
-  redirect('/trilhas');
+  redirect('/login');
 }

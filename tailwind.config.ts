@@ -1,5 +1,6 @@
 // tailwind.config.ts
 import type { Config } from 'tailwindcss'
+import typography from '@tailwindcss/typography' // <- ADICIONE ESTA LINHA
 
 const config: Config = {
   content: [
@@ -17,7 +18,7 @@ const config: Config = {
     },
   },
   plugins: [
-    require('@tailwindcss/typography')
-  ], // A lista de plugins está aqui
+    typography // <- ALTERE DE require(...) PARA a variável aqui
+  ],
 }
 export default config

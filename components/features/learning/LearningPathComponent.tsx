@@ -28,6 +28,18 @@ const LearningPathComponent = ({ pathId }: LearningPathComponentProps) => {
     const router = useRouter();
     const path = (mockDatabase.learningPaths as MockLearningPaths)[pathId];
 
+    if (!path) {
+        return (
+            <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+                <h1 className="text-2xl font-bold text-red-500">Erro: Trilha não encontrada</h1>
+                <p className="mt-2 text-gray-600 dark:text-gray-400">A trilha de aprendizagem que você está tentando acessar não existe.</p>
+                <Button onClick={() => router.push('/trilhas')} className="mt-6">
+                    Voltar para as Trilhas
+                </Button>
+            </div>
+        );
+    }
+
     const getInitialProgress = (): UserProgress => {
         if (!user) {
             // Retorna um estado padrão se não houver usuário logado
@@ -53,7 +65,6 @@ const LearningPathComponent = ({ pathId }: LearningPathComponentProps) => {
 
     const [showCompleteModal, setShowCompleteModal] = useState(false);
 
-    // Lógica original copiada para cá
     const calculateBadgesToAward = (earnedXp: number, path: LearningPath): string[] => {
         const badgesToAward: string[] = [];
         const pathBadges = path.badges || [];
@@ -73,7 +84,6 @@ const LearningPathComponent = ({ pathId }: LearningPathComponentProps) => {
         return badgesToAward;
     };
 
-    // Lógica original copiada para cá
     const updateProgress = (moduleId: string, data: any = {}) => {
         if (!user) return; 
 
@@ -104,7 +114,6 @@ const LearningPathComponent = ({ pathId }: LearningPathComponentProps) => {
         });
     };
     
-    // Lógica original copiada para cá
     useEffect(() => {
         if (userProgress.pathCompleted && !showCompleteModal) {
             
@@ -157,11 +166,22 @@ const LearningPathComponent = ({ pathId }: LearningPathComponentProps) => {
 
         switch (module.type) {
             case 'tutorial':
-                return <Card className="text-center"><h2 className="text-2xl font-bold mb-4">Tutorial Interativo</h2><Lucide.MousePointerClick size={48} className="mx-auto my-4" /><p className="mb-6">Siga as instruções na tela. É simples!</p><Button onClick={() => updateProgress(moduleId)}>Entendi!</Button></Card>;
+                return (
+                    <Card className="text-center">
+                        <h2 className="text-2xl font-bold mb-4">Tutorial Interativo</h2>
+                        <Lucide.MousePointerClick size={48} className="mx-auto my-4 text-indigo-500" />
+                        <p className="mb-6">Siga as instruções na tela. É simples!</p>
+                        {/* * CORREÇÃO APLICADA AQUI: 
+                          * O botão foi envolvido em uma div com flexbox para garantir a centralização.
+                        */}
+                        <div className="mt-6 flex justify-center">
+                            <Button onClick={() => updateProgress(moduleId)}>Entendi!</Button>
+                        </div>
+                    </Card>
+                );
             case 'presentation':
                 return <PresentationModule onComplete={() => updateProgress(moduleId)} />;
             case 'quiz':
-                // Corrigido para passar a prop 'title'
                 return <QuizComponent quizId="digital-security-q1" title={module.title} onQuizComplete={(quizData) => updateProgress(moduleId, { quizScore: quizData })} />;
             case 'game':
                 return <PhaserGame onGameEnd={(gameData) => updateProgress(moduleId, { gameScore: gameData.score, gameAttempts: gameData.attempts })} />;
